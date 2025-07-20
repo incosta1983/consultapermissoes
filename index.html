@@ -5,47 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Permissões</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-head>
+</head>
 <body>
     <div class="container">
         <header>
-            <h1>Consulta de Perfis e Permissõesh1>
-            <p>Gerenciamento de Consultas e Peticionamento de Processosp>
-        header>
+            <h1>Consulta de Perfis e Permissões</h1>
+            <p>Selecione os filtros para ver as permissões de consulta e peticionamento.</p>
+        </header>
 
         <main>
             <div class="filtros">
                 <div class="filtro-item">
-                    <label for="filtro-perfil">Perfil do Usuáriolabel>
+                    <label for="filtro-perfil">Perfil do Usuário</label>
                     <select id="filtro-perfil">
-                        <option value="">Todos os Perfisoption>
-                    select>
-                div>
+                        <option value="">Todos os Perfis</option>
+                    </select>
+                </div>
                 <div class="filtro-item">
-                    <label for="filtro-vinculo">Vínculo ao Processolabel>
+                    <label for="filtro-vinculo">Vínculo ao Processo</label>
                     <select id="filtro-vinculo">
-                        <option value="">Todos os Vínculosoption>
-                    select>
-                div>
+                        <option value="">Todos os Vínculos</option>
+                    </select>
+                </div>
                 <div class="filtro-item">
-                    <label for="filtro-sigilo">Nível de Sigilolabel>
+                    <label for="filtro-sigilo">Nível de Sigilo</label>
                     <select id="filtro-sigilo">
-                        <option value="">Todos os Níveisoption>
-                    select>
-                div>
-            div>
+                        <option value="">Todos os Níveis</option>
+                    </select>
+                </div>
+            </div>
 
             <div id="resultado" class="resultado-container">
-                <p class="placeholder">Aguardando a seleção dos filtros...p>
-            div>
-        main>
-    div>
+                <p class="placeholder">Aguardando a seleção dos filtros...</p>
+            </div>
+        </main>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">script>
-    <script src="script.js">script>
-body>
-html>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
