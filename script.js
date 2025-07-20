@@ -1,92 +1,92 @@
 // =================================================================
-// PASSO 1: Definir as chaves de conexão.
-// Estas linhas PRECISAM vir primeiro.
+// 1. CONFIGURAÇÃO E INICIALIZAÇÃO DO SUPABASE
 // =================================================================
 const SUPABASE_URL = 'https://vftbpsbaxdimvcpufxzz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmdGJwc2JheGRpbXZjcHVmeHp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5NTgwMTcsImV4cCI6MjA2ODUzNDAxN30.BPyS-rd1Er_NWORgeCU8iyeUdV0kBNAhwaO3p8_Zbcw';
 
-// =================================================================
-// PASSO 2: Criar o cliente Supabase.
-// Esta linha SÓ PODE funcionar depois que as chaves acima foram definidas.
-// =================================================================
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // =================================================================
-// PASSO 3: O resto da lógica da aplicação.
+// LÓGICA DO APLICATIVO
 // =================================================================
 
-// Elementos do DOM (onde o código interage com o HTML)
+// Elementos do DOM
 const filtroPerfil = document.getElementById('filtro-perfil');
 const filtroVinculo = document.getElementById('filtro-vinculo');
 const filtroSigilo = document.getElementById('filtro-sigilo');
 const resultadoDiv = document.getElementById('resultado');
 
 /**
- * Busca os valores únicos para perfil, vínculo e sigilo no banco de dados
- * e os adiciona como opções nos menus <select> do HTML.
+ * Popula os menus de filtro com dados únicos do banco.
  */
 async function popularFiltros() {
-    // Busca na tabela 'permissoes' as colunas necessárias para os filtros
-    const { data, error } = await supabase.from('permissoes').select('perfil, vinculo_ao_processo, nivel_de_sigilo');
+    // CORREÇÃO: Usando o nome correto da tabela e das colunas.
+    const { data, error } = await supabase
+        .from('permissoes_consulta_peticionamento') // NOME DA TABELA CORRETO
+        .select('perfil, vinculo_processo, nivel_sigilo'); // NOMES DAS COLUNAS CORRETOS
 
     if (error) {
         console.error('Erro ao buscar dados para os filtros:', error.message);
-        alert('Não foi possível carregar os filtros. Verifique o console do navegador (F12) para mais detalhes.');
+        alert('Não foi possível carregar os filtros. Verifique o console do navegador (F12).');
         return;
     }
 
-    // Extrai valores únicos para evitar duplicados nos menus
+    // Extrai valores únicos para evitar duplicados
     const perfis = [...new Set(data.map(item => item.perfil))];
-    const vinculos = [...new Set(data.map(item => item.vinculo_ao_processo))];
-    const sigilos = [...new Set(data.map(item => item.nivel_de_sigilo))];
+    const vinculos = [...new Set(data.map(item => item.vinculo_processo))]; // NOME DA COLUNA CORRETO
+    const sigilos = [...new Set(data.map(item => item.nivel_sigilo))];     // NOME DA COLUNA CORRETO
 
-    // Popula os selects com os valores, criando um <option> para cada
+    // Popula os selects com os valores
     perfis.sort().forEach(valor => {
-        const option = document.createElement('option');
-        option.value = valor;
-        option.textContent = valor;
-        filtroPerfil.appendChild(option);
+        if (valor) { // Garante que valores nulos não entrem no filtro
+            const option = document.createElement('option');
+            option.value = valor;
+            option.textContent = valor;
+            filtroPerfil.appendChild(option);
+        }
     });
 
     vinculos.sort().forEach(valor => {
-        const option = document.createElement('option');
-        option.value = valor;
-        option.textContent = valor.charAt(0).toUpperCase() + valor.slice(1);
-        filtroVinculo.appendChild(option);
+        if (valor) {
+            const option = document.createElement('option');
+            option.value = valor;
+            option.textContent = valor.charAt(0).toUpperCase() + valor.slice(1);
+            filtroVinculo.appendChild(option);
+        }
     });
 
     sigilos.sort().forEach(valor => {
-        const option = document.createElement('option');
-        option.value = valor;
-        option.textContent = valor;
-        filtroSigilo.appendChild(option);
+        if (valor) {
+            const option = document.createElement('option');
+            option.value = valor;
+            option.textContent = valor;
+            filtroSigilo.appendChild(option);
+        }
     });
 }
 
 /**
- * Busca no Supabase os dados que correspondem aos filtros selecionados
- * e chama a função para exibi-los na tela.
+ * Busca no Supabase com base nos filtros e exibe os resultados.
  */
 async function buscarPermissoes() {
     const perfilSelecionado = filtroPerfil.value;
     const vinculoSelecionado = filtroVinculo.value;
     const sigiloSelecionado = filtroSigilo.value;
 
-    // Começa a montar a "pergunta" para o banco de dados
-    let query = supabase.from('permissoes').select('*');
+    // CORREÇÃO: Usando o nome correto da tabela.
+    let query = supabase.from('permissoes_consulta_peticionamento').select('*');
 
-    // Adiciona filtros à query somente se um valor for selecionado no menu
+    // Adiciona filtros à query (aqui usamos os nomes corretos das colunas)
     if (perfilSelecionado) {
         query = query.eq('perfil', perfilSelecionado);
     }
     if (vinculoSelecionado) {
-        query = query.eq('vinculo_ao_processo', vinculoSelecionado);
+        query = query.eq('vinculo_processo', vinculoSelecionado); // NOME DA COLUNA CORRETO
     }
     if (sigiloSelecionado) {
-        query = query.eq('nivel_de_sigilo', sigiloSelecionado);
+        query = query.eq('nivel_sigilo', sigiloSelecionado);     // NOME DA COLUNA CORRETO
     }
-
-    // Executa a query e aguarda os dados (data) ou o erro (error)
+    
     const { data, error } = await query;
 
     if (error) {
@@ -99,22 +99,22 @@ async function buscarPermissoes() {
 }
 
 /**
- * Renderiza os resultados da busca na tela, criando os cards de informação.
+ * Renderiza os resultados da busca na tela.
  * @param {Array} resultados - Um array de objetos vindos do Supabase.
  */
 function exibirResultados(resultados) {
-    resultadoDiv.innerHTML = ''; // Limpa resultados antigos antes de mostrar os novos
+    resultadoDiv.innerHTML = ''; 
 
     if (resultados.length === 0) {
         resultadoDiv.innerHTML = `<p class="nenhum-resultado">Nenhuma combinação encontrada para os filtros selecionados.</p>`;
         return;
     }
 
-    // Para cada item no array de resultados, cria um card HTML
     resultados.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card-resultado';
 
+        // Aqui os nomes das variáveis (item.perfil, etc.) correspondem às colunas corretas.
         card.innerHTML = `
             <h2>${item.perfil || 'Perfil não informado'}</h2>
             <h3>Ação de Consulta de Processos</h3>
@@ -128,16 +128,14 @@ function exibirResultados(resultados) {
 }
 
 // =================================================================
-// "Ouvintes" de eventos - Código que reage às ações do usuário
+// EVENT LISTENERS - "Ouvintes" de ações do usuário
 // =================================================================
 
-// Chama a função de busca sempre que um filtro diferente for selecionado
 filtroPerfil.addEventListener('change', buscarPermissoes);
 filtroVinculo.addEventListener('change', buscarPermissoes);
 filtroSigilo.addEventListener('change', buscarPermissoes);
 
-// Quando a página terminar de carregar, executa estas funções
 document.addEventListener('DOMContentLoaded', () => {
-    popularFiltros(); // 1º: Popula os menus de filtro
-    buscarPermissoes(); // 2º: Faz uma busca inicial para mostrar todos os resultados
+    popularFiltros(); 
+    buscarPermissoes(); 
 });
