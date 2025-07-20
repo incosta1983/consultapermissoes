@@ -1,0 +1,125 @@
+:root {
+    --cor-fundo: #f4f7f6;
+    --cor-container: #ffffff;
+    --cor-borda: #e0e0e0;
+    --cor-sombra: rgba(0, 0, 0, 0.05);
+    --cor-primaria: #007bff;
+    --cor-texto-principal: #333;
+    --cor-texto-secundario: #666;
+    --cor-resultado-fundo: #fafcff;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--cor-container);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--cor-sombra);
+    overflow: hidden;
+}
+
+header {
+    padding: 2rem;
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+header p {
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+}
+
+main {
+    padding: 2rem;
+}
+
+.filtros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.filtro-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--cor-texto-secundario);
+}
+
+.filtro-item select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.filtro-item select:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.resultado-container .placeholder, .resultado-container .nenhum-resultado {
+    text-align: center;
+    color: var(--cor-texto-secundario);
+    padding: 2rem;
+    background-color: var(--cor-fundo);
+    border-radius: 8px;
+}
+
+.card-resultado {
+    background-color: var(--cor-resultado-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card-resultado h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    color: var(--cor-primaria);
+    border-bottom: 1px solid var(--cor-borda);
+    padding-bottom: 0.5rem;
+}
+
+.card-resultado h3 {
+    margin: 1rem 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+}
+
+.card-resultado p {
+    margin: 0;
+    color: var(--cor-texto-secundario);
+    line-height: 1.5;
+}
