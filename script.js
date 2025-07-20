@@ -1,21 +1,20 @@
 // =================================================================
-// PASSO 1: Definir as chaves de conexão.
+// 1. DEFINIÇÃO DAS CHAVES DE CONEXÃO
 // =================================================================
 const SUPABASE_URL = 'https://vftbpsbaxdimvcpufxzz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmdGJwc2JheGRpbXZjcHVmeHp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5NTgwMTcsImV4cCI6MjA2ODUzNDAxN30.BPyS-rd1Er_NWORgeCU8iyeUdV0kBNAhwaO3p8_Zbcw';
 
 // =================================================================
-// PASSO 2: Criar o cliente Supabase.
-// CORREÇÃO: A variável agora se chama 'supabaseClient' para evitar conflito.
-// Esta era a linha com o erro.
+// 2. CRIAÇÃO DO CLIENTE SUPABASE
+// A variável agora se chama 'supabaseClient' para resolver o erro.
 // =================================================================
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // =================================================================
-// PASSO 3: O resto da lógica da aplicação.
+// 3. LÓGICA DO APLICATIVO
 // =================================================================
 
-// Elementos do DOM
+// Elementos do DOM (onde o código interage com o HTML)
 const filtroPerfil = document.getElementById('filtro-perfil');
 const filtroVinculo = document.getElementById('filtro-vinculo');
 const filtroSigilo = document.getElementById('filtro-sigilo');
@@ -102,7 +101,6 @@ async function buscarPermissoes() {
 
 /**
  * Renderiza os resultados da busca na tela.
- * @param {Array} resultados - Um array de objetos vindos do Supabase.
  */
 function exibirResultados(resultados) {
     resultadoDiv.innerHTML = ''; 
